@@ -14,6 +14,10 @@ class DRbFileServer
       
     end
     
+    def exists?(filename)
+      File.exists? File.join(@path, filename)
+    end
+    
     def read(filename)
       
       File.read File.join(@path, filename)

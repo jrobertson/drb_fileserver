@@ -16,6 +16,11 @@ class DRbFileServer
       
     end
     
+    def cp(path, path2)
+      puts 'cp: ' + [File.join(@path, path), File.join(@path, path2)].inspect
+      FileUtils.cp File.join(@path, path), File.join(@path, path2)
+    end        
+    
     def exists?(filename)
       File.exists? File.join(@path, filename)
     end
@@ -28,8 +33,22 @@ class DRbFileServer
       FileUtils.mkdir_p File.join(@path, path)
     end
     
+    def mv(path, path2)
+      FileUtils.mv File.join(@path, path), File.join(@path, path2)
+    end    
+    
     def read(filename)
       File.read File.join(@path, filename)
+    end
+    
+    def rm(filename)
+      FileUtils.rm File.join(@path, filename)
+    end     
+    
+    def stop()
+      puts 'stopping DFS service ...'
+      DRb.stop_service
+      'connection closed'
     end
 
     def write(filename, s)

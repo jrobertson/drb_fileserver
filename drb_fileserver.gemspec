@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'drb_fileserver'
-  s.version = '0.1.3'
+  s.version = '0.1.4'
   s.summary = 'A DRb server to read or write local files.'
   s.authors = ['James Robertson']
   s.files = Dir['lib/drb_fileserver.rb']

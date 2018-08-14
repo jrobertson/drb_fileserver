@@ -2,6 +2,7 @@
 
 # file: drb_fileserver.rb
 
+require 'zip'
 require 'drb'
 require 'fileutils'
 
@@ -53,6 +54,20 @@ class DRbFileServer
 
     def write(filename, s)
       File.write File.join(@path, filename), s
+    end
+    
+    # zips a file. Each array items contains a filename, and content to 
+    # be written to the file.
+    #
+    def zip(filename_zip, a)
+      
+      Zip::File.open(filename_zip, Zip::File::CREATE) do |x|
+
+        a.each do |filename, buffer| 
+          x.get_output_stream(filename) {|os| os.write buffer }
+        end
+
+      end         
     end
 
   end

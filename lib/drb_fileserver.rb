@@ -26,6 +26,11 @@ class DRbFileServer
       File.exists? File.join(@path, filename)
     end
     
+    def ls(path)
+      path = File.join(path, '*') if File.exists? File.join(@path, path)
+      Dir[File.join(@path, path)].map {|x| File.basename(x) }
+    end    
+    
     def mkdir(name)
       FileUtils.mkdir File.join(@path, name)
     end

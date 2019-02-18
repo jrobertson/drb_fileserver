@@ -10,6 +10,7 @@ require 'fileutils'
 class DRbFileServer
 
   class FileX
+    
 
     def initialize(path='.')
       
@@ -18,9 +19,13 @@ class DRbFileServer
     end
     
     def cp(path, path2)
-      puts 'cp: ' + [File.join(@path, path), File.join(@path, path2)].inspect
+      #puts 'cp: ' + [File.join(@path, path), File.join(@path, path2)].inspect
       FileUtils.cp File.join(@path, path), File.join(@path, path2)
     end        
+    
+    def directory?(filename)
+      File.directory? File.join(@path, filename)
+    end    
     
     def exists?(filename)
       File.exists? File.join(@path, filename)

@@ -30,10 +30,26 @@ class DRbFileServer
     def exists?(filename)
       File.exists? File.join(@path, filename)
     end
-    
-    def ls(path)
-      path = File.join(path, '*') if File.exists? File.join(@path, path)
-      Dir[File.join(@path, path)].map {|x| File.basename(x) }
+
+    # path can include a wildcard and the switch -ltr
+    #
+    def ls(rawpath)
+      
+      path, switch = rawpath.split(/\s+/,2)
+      wildcard = path.include?('*') ? '' : '*'
+      path = File.join(path, wildcard) if File.exists? File.join(@path, path)
+      
+      a = Dir[File.join(@path, path)].map do |x|               
+        
+        File.basename(x)
+      end
+      
+      if switch == '-ltr' then
+        a.sort_by {|x| File.mtime(File.join(@path, File.dirname(path), x)) } 
+      else
+        a
+      end
+      
     end    
     
     def mkdir(name)

@@ -35,6 +35,10 @@ class DRbFileServer
       File.exists? File.join(@path, filename)
     end
 
+    def glob(s)
+      Dir.glob(File.join(@path, s))
+    end
+
     # path can include a wildcard and the switch -ltr
     #
     def ls(rawpath)

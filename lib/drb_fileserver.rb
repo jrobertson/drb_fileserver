@@ -86,6 +86,10 @@ class DRbFileServer
       'connection closed'
     end
 
+    def touch(filename, mtime: Time.now)
+      FileUtils.touch File.join(@path, filename), mtime: mtime
+    end
+
     def write(filename, s)
       File.write File.join(@path, filename), s
     end

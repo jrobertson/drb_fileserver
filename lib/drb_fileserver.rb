@@ -80,6 +80,10 @@ class DRbFileServer
       FileUtils.rm File.join(@path, filename)
     end
 
+    def rm_r(filename, force: false)
+      FileUtils.rm_r File.join(@path, filename). force: force
+    end
+
     def stop()
       puts 'stopping DFS service ...'
       DRb.stop_service

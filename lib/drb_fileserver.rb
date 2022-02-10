@@ -5,17 +5,15 @@
 require 'zip'
 require 'drb'
 require 'fileutils'
+require 'dir-to-xml'
 
 
 class DRbFileServer
 
   class FileX
 
-
     def initialize(path='.')
-
       @path = path
-
     end
 
     def chmod(permissions, filename)
@@ -82,6 +80,18 @@ class DRbFileServer
 
     def rm_r(filename, force: false)
       FileUtils.rm_r File.join(@path, filename). force: force
+    end
+
+    # recently updated
+    #
+    def ru(path)
+      DirToXML.new(path, recursive: false, verbose: false).latest
+    end
+
+    # recently updated; checks subdirectories recursively
+    #
+    def ru_r(path)
+      DirToXML.new(path, recursive: true, verbose: false).latest
     end
 
     def stop()

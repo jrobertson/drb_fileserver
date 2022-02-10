@@ -79,7 +79,7 @@ class DRbFileServer
     end
 
     def rm_r(filename, force: false)
-      FileUtils.rm_r File.join(@path, filename). force: force
+      FileUtils.rm_r File.join(@path, filename), force: force
     end
 
     # recently updated

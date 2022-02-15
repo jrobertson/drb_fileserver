@@ -85,13 +85,19 @@ class DRbFileServer
     # recently updated
     #
     def ru(path)
-      DirToXML.new(path, recursive: false, verbose: false).latest
+      found = DirToXML.new(File.join(@path, path), recursive: false,
+                           verbose: false).latest
+      found.sub(/^#{@path}/,'') if found
     end
 
     # recently updated; checks subdirectories recursively
     #
     def ru_r(path)
-      DirToXML.new(path, recursive: true, verbose: false).latest
+
+      found = DirToXML.new(File.join(@path, path), recursive: true,
+                           verbose: false).latest
+      found.sub(/^#{@path}/,'') if found
+
     end
 
     def stop()

@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name = 'drb_fileserver'
-  s.version = '0.4.2'
+  s.version = '0.4.3'
   s.summary = 'A DRb server to read or write local files.'
   s.authors = ['James Robertson']
   s.files = Dir['lib/drb_fileserver.rb']
-  s.add_runtime_dependency('dir-to-xml', '~> 1.1', '>=1.1.3')
+  s.add_runtime_dependency('dir-to-xml', '~> 1.2', '>=1.2.2')
   s.signing_key = '../privatekeys/drb_fileserver.pem'
   s.cert_chain  = ['gem-public_cert.pem']
   s.license = 'MIT'

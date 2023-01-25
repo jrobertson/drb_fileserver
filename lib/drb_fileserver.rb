@@ -11,7 +11,7 @@ require 'dir-to-xml'
 class DRbFileServer
 
   class FileX
-
+    
     def initialize(path='.')
       @path = path
     end
@@ -19,19 +19,21 @@ class DRbFileServer
     def chmod(permissions, filename)
       FileUtils.chmod permissions, File.join(@path, filename)
     end
-
+    
     def cp(path, path2)
       #puts 'cp: ' + [File.join(@path, path), File.join(@path, path2)].inspect
       FileUtils.cp File.join(@path, path), File.join(@path, path2)
-    end
-
+    end        
+    
     def directory?(filename)
       File.directory? File.join(@path, filename)
+    end    
+    
+    def exist?(filename)
+      File.exist? File.join(@path, filename)
     end
-
-    def exists?(filename)
-      File.exists? File.join(@path, filename)
-    end
+    
+    alias exists? exist?
 
     def glob(s)
       Dir.glob(File.join(@path, s))
@@ -40,43 +42,43 @@ class DRbFileServer
     # path can include a wildcard and the switch -ltr
     #
     def ls(rawpath)
-
+      
       path, switch = rawpath.split(/\s+/,2)
       wildcard = path.include?('*') ? '' : '*'
-      path = File.join(path, wildcard) if File.exists? File.join(@path, path)
-
-      a = Dir[File.join(@path, path)].map do |x|
-
+      path = File.join(path, wildcard) if File.exist? File.join(@path, path)
+      
+      a = Dir[File.join(@path, path)].map do |x|               
+        
         File.basename(x)
       end
-
+      
       if switch == '-ltr' then
-        a.sort_by {|x| File.mtime(File.join(@path, File.dirname(path), x)) }
+        a.sort_by {|x| File.mtime(File.join(@path, File.dirname(path), x)) } 
       else
         a
       end
-
-    end
-
+      
+    end    
+    
     def mkdir(name)
       FileUtils.mkdir File.join(@path, name)
     end
-
+    
     def mkdir_p(path)
       FileUtils.mkdir_p File.join(@path, path)
     end
-
+    
     def mv(path, path2)
       FileUtils.mv File.join(@path, path), File.join(@path, path2)
-    end
-
+    end    
+    
     def read(filename)
       File.read File.join(@path, filename)
     end
-
+    
     def rm(filename)
       FileUtils.rm File.join(@path, filename)
-    end
+    end     
 
     def rm_r(filename, force: false)
       FileUtils.rm_r File.join(@path, filename), force: force
@@ -99,7 +101,7 @@ class DRbFileServer
       found.sub(/^#{@path}/,'') if found
 
     end
-
+    
     def stop()
       puts 'stopping DFS service ...'
       DRb.stop_service
@@ -113,19 +115,19 @@ class DRbFileServer
     def write(filename, s)
       File.write File.join(@path, filename), s
     end
-
-    # zips a file. Each array items contains a filename, and content to
+    
+    # zips a file. Each array items contains a filename, and content to 
     # be written to the file.
     #
     def zip(filename_zip, a)
-
+      
       Zip::File.open(filename_zip, Zip::File::CREATE) do |x|
 
-        a.each do |filename, buffer|
+        a.each do |filename, buffer| 
           x.get_output_stream(filename) {|os| os.write buffer }
         end
 
-      end
+      end         
     end
 
   end
